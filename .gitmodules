@@ -1,0 +1,3 @@
+[submodule "src/cog"]
+	path = src/cog
+	url = git@git.9lines.org:9lines/cog.git

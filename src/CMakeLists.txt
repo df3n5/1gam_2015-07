@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 2.8)
+project(1gam C)
+
+add_definitions(-std=c99 -DDEBUG -Wall)
+
+INCLUDE(FindFreetype)
+IF(NOT FREETYPE_FOUND)
+    FIND_LIBRARY(FREETYPE_LIBRARIES NAMES libfreetype freetype.dll PATHS "./libs/MacOS" "./libs/Windows" DOC "Freetype library")
+    FIND_PATH(FREETYPE_INCLUDE_DIRS ftbuild.h "./includes" DOC "Freetype includes")
+ENDIF(NOT FREETYPE_FOUND)
+INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
+
+set(CMAKE_BUILD_TYPE Debug)
+
+SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cog/src/CMake" ${CMAKE_MODULE_PATH})
+include_directories("${CMAKE_SOURCE_DIR}/cog/src" "${CMAKE_SOURCE_DIR}")
+
+add_subdirectory(cog/src)
+
+file(COPY ../assets 
+    DESTINATION ${CMAKE_BINARY_DIR})
+
+file(GLOB srcs *.c)
+add_executable(game ${srcs})
+target_link_libraries(game cog)

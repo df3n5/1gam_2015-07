@@ -10,8 +10,10 @@ include_directories("${CMAKE_SOURCE_DIR}/cog/src" "${CMAKE_SOURCE_DIR}")
 
 add_subdirectory(cog/src)
 
-file(COPY ../assets 
-    DESTINATION ${CMAKE_BINARY_DIR})
+add_custom_command(
+    TARGET "1gam" POST_BUILD
+    COMMAND ln -sf ${CMAKE_SOURCE_DIR}/../assets ${CMAKE_OUTPUT_DIR}/assets
+)
 
 file(GLOB srcs *.c)
 add_executable(game ${srcs})
